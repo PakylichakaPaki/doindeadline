@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+// Интерфейс для ошибок
+interface Errors {
+  [key: string]: string | undefined;
+}
+
 const Form = () => {
   const [formData, setFormData] = useState({
     title: '',
@@ -20,7 +25,7 @@ const Form = () => {
   });
 
   const [token, setToken] = useState<string | null>(null);
-  const [errors, setErrors] = useState<any>({});
+  const [errors, setErrors] = useState<Errors>({}); // Используем интерфейс Errors
 
   // Загрузка токена из localStorage при монтировании компонента
   useEffect(() => {
@@ -63,8 +68,8 @@ const Form = () => {
     }
   };
 
-  const validate = () => {
-    const errors: any = {};
+  const validate = (): Errors | null => {
+    const errors: Errors = {};
 
     if (!formData.title.trim()) {
       errors.title = 'Поле "Название задачи" обязательно для заполнения.';
